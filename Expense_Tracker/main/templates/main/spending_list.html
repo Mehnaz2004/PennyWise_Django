@@ -1,0 +1,294 @@
+{% extends 'main/base.html' %} {% block content %}
+
+<head>
+    <title>Spending List</title>
+    <style>
+        /* Custom scrollbar styles */
+        
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 5px;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: rgba(100, 100, 100, 0.5);
+            border-radius: 5px;
+        }
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 100, 100, 0.7);
+        }
+        
+        .expense-sheet-container {
+            max-width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .expense-sheet-header {
+            background-color: #110a78;
+            color: #fff;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .expense-sheet-title {
+            text-align: left;
+            padding: 14px;
+        }
+        
+        .expense-sheet-title h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .budget-info {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            color: #fff;
+        }
+        
+        .budget-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .expense-sheet-content {
+            padding-top: 50px;
+        }
+        
+        h2 {
+            margin-top: 0;
+        }
+        
+        p {
+            color: #ddd;
+            margin-bottom: 5px;
+        }
+        
+        h3 {
+            color: #fff;
+            margin-top: 20px;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .category {
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+        
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+        }
+        
+        .category-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .edit-button,
+        .delete-button {
+            background-color: #CCBF88;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .edit-button:hover,
+        .delete-button:hover {
+            background-color: #110a78;
+            color: #f4f4f4;
+        }
+        
+        .edit-button {
+            margin-right: 5px;
+        }
+        
+        .budget-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .budget-details span {
+            margin-bottom: 5px;
+        }
+        
+        .spendings-list {
+            margin-top: 10px;
+        }
+        
+        .spendings-list ul {
+            padding-left: 20px;
+        }
+        
+        .spendings-list li {
+            margin-bottom: 5px;
+        }
+        
+        .add-spendings {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #CCBF88;
+            /* Blue color */
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .add-spendings:hover {
+            background-color: #110a78;
+            color: #f4f4f4;
+            /* Darker blue color on hover */
+            transform: scale(1.1);
+            /* Scale up slightly on hover */
+        }
+        
+        .flex-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .spendings-list {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .spendings-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .spendings-list li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .spendings-list li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="add-spendings" onclick="redirectToCreateSpending()">&plus;</button> {% for expense_sheet in expense_sheets %}
+    <div class="expense-sheet-container">
+        <div class="expense-sheet-header">
+            <div class="expense-sheet-title">
+                <h2>{{ expense_sheet.title }}</h2>
+            </div>
+            <div class="budget-info">
+                <p>Budget: ${{ expense_sheet.remaining_budget }} / ${{ expense_sheet.budget }}</p>
+            </div>
+        </div>
+
+        {% if expense_sheet.spendings_data %}
+        <div class="expense-sheet-content">
+            <ul class="category-list">
+                {% for spending_data in expense_sheet.spendings_data %}
+                <li class="category">
+                    <div class="category-item">
+                        <span class="category-name">{{ spending_data.category.name }}</span> {% if spending_data.spendings %}
+                        <div class="spendings-list">
+                            <ul>
+                                {% for spending in spending_data.spendings %}
+                                <li>&#8226; {{ spending.amount }} spent on {{ spending.description }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% else %}
+                        <p>No spendings made in this category.</p>
+                        {% endif %}
+                        <div class="category-buttons">
+                            <!-- Update button with window.location.href -->
+                            <button class="edit-button" onclick="redirectToUpdateSpending('{{ spending_data.pk }}')">Edit</button>
+                            <!-- Delete button with window.location.href -->
+                            <button class="delete-button" onclick="redirectToDeleteSpending('{{ spending_data.pk }}')">Delete</button>
+                        </div>
+                        <div class="budget-details">
+                            <span>Starting Budget: ${{ spending_data.category.budget }}</span>
+                            <span>Remaining Budget: ${{ spending_data.category.remaining_budget }}</span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <p>No categories available for this expense sheet.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <script>
+        function redirectToCreateSpending() {
+            // Redirect to the create_spending URL
+            window.location.href = "{% url 'create_spending' %}";
+        }
+
+        function redirectToUpdateSpending(pk) {
+            // Redirect to the update_spending URL with the given primary key
+            window.location.href = "{% url 'update_spending' pk='0' %}".replace("0", pk);
+        }
+
+        function redirectToDeleteSpending(pk) {
+            // Redirect to the delete_spending URL with the given primary key
+            window.location.href = "{% url 'delete_spending' pk='0' %}".replace("0", pk);
+        }
+    </script>
+</body>
+{% endblock %}

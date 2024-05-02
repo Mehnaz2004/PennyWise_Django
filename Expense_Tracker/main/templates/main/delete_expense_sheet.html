@@ -1,0 +1,131 @@
+<!-- delete_expense_sheet.html -->
+
+{% block content %}
+<div class="blur-background">
+    <div class="warning-box">
+        <div class="warning-sign">&#9888;</div>
+        <h2>Delete Expense Sheet</h2>
+        <p>Are you sure you want to delete this Expense Sheet?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-container">
+                <button type="submit" class="delete-button">Delete</button>
+                <a href="{% url 'expense_sheet_list' %}" class="go-back-link">Go Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+    document.querySelector('.go-back-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = event.target.href;
+    });
+</script>
+{% endblock %} {% block styles %}
+<style>
+    body {
+        overflow-y: auto;
+        /* Add scrollbar to the whole page */
+    }
+    
+    .blur-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent black */
+        backdrop-filter: blur(8px);
+        /* Blur effect */
+        z-index: 999;
+        /* Ensure it's above other content */
+        overflow: hidden;
+        /* Hide overflow from the background */
+    }
+    
+    .warning-box {
+        background-color: #FDF3E7;
+        border: 1px solid #FCEBD5;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 50px auto;
+        width: 50%;
+        text-align: center;
+        position: relative;
+        /* Ensure it stays centered */
+        overflow-y: auto;
+        /* Enable vertical scrollbar if content exceeds the box height */
+        max-height: 80%;
+        /* Set a maximum height to trigger scrollbar */
+    }
+    
+    .warning-sign {
+        font-size: 36px;
+        color: #FFA500;
+        /* Orange color */
+        margin-bottom: 10px;
+    }
+    
+    .warning-box h2 {
+        font-family: 'Arial Black', sans-serif;
+        color: #FFA500;
+        /* Orange color */
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    
+    .warning-box p {
+        font-family: Arial, sans-serif;
+        color: #FFA500;
+        /* Orange color */
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+    
+    .button-container {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .delete-button {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        background-color: #FFD700;
+        /* Yellow color */
+        color: #000;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.5s ease;
+        margin: 0 10px;
+    }
+    
+    .delete-button:hover {
+        background-color: #ffa600;
+        /* Darker yellow color */
+    }
+    
+    .warning-box .go-back-link {
+        font-family: Arial, sans-serif;
+        font-weight: lighter;
+        background-color: #FFD700;
+        /* Yellow color */
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.5s ease;
+        margin: 0 10px;
+        text-decoration: none;
+        /* Remove default link underline */
+    }
+    
+    .warning-box .go-back-link:hover {
+        background-color: #ffa600;
+        /* Darker yellow color */
+    }
+</style>
+{% endblock %}

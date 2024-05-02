@@ -1,0 +1,145 @@
+{% extends "registration/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Information</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #B9D6FC;
+    }
+    .header {
+      background-color: #110a78;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .credentials,
+    .name,
+    .other-info {
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    .credentials label,
+    .name label,
+    .other-info label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .field-box {
+      width: 20%;
+      height: 20px;
+      border: 2px solid #110a78;
+      padding: 5px 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .field-box p {
+      margin: 0; /* Set margin of p elements to 0 */
+      padding: 0; /* Set padding of p elements to 0 */
+    }
+    .name .field-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .name .field-box {
+      flex: 1 1 200px;
+      margin-bottom: 10px;
+    }
+    .name .field-box p {
+      margin: 0;
+    }
+    .name .field-box label {
+      margin-bottom: 2px;
+    }
+    .left {
+      text-align: left;
+    }
+    .middle {
+      text-align: center;
+    }
+    .right {
+      text-align: right;
+    }
+    /* Styles for buttons */
+    .buttons {
+      text-align: left;
+    }
+    .buttons button {
+      background-color: #B5BD7D;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Personal Information</h1>
+  </div>
+  <div class="credentials">
+    <h2>Credentials</h2>
+    <label for="username">Username:</label>
+    <div class="field-box">
+      <p>{{ user.username }}</p>
+    </div>
+  </div>
+  <div class="name">
+    <h2>Name</h2>
+    <label for="first_name">First Name:</label>
+    <div class="field-box">
+      <p>{{ user.first_name }}</p>
+    </div>
+    <label for="middle-name">Middle Name:</label>
+    <div class="field-box">
+      <p>{{ user.middle_name }}</p>
+    </div>
+    <label for="last-name">Last Name:</label>
+    <div class="field-box">
+      <p>{{ user.last_name }}</p>
+    </div>
+  </div>
+  <div class="other-info">
+    <h2>Other Info</h2>
+    <label for="dob"><strong>Date of Birth:</strong></label>
+    <div class="field-box">
+      <p>{{ user.dob }}</p>
+    </div>
+    <label for="age"><strong>Age:</strong></label>
+    <div class="field-box">
+      <p>{{ user.age }}</p>
+    </div>
+    <label for="phoneno"><strong>Phone Number:</strong></label>
+    <div class="field-box">
+      <p>{{ user.phoneno }}</p>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <button onclick="redirectToUpdateProfile()">Update</button>
+    <button onclick="redirectToDeleteProfile()">Delete</button>
+  </div>
+  <script>
+    function redirectToUpdateProfile() {
+      window.location.href = "/update_profile";
+    }
+    function redirectToDeleteProfile() {
+      window.location.href = "/delete_account";
+    }
+  </script>
+</body>
+</html>
+{% endblock %}

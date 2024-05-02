@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Combined Dashboard{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden;
+            background-color: #fff;
+            /* First color from palette */
+        }
+        /* Custom scrollbar */
+        
+         ::-webkit-scrollbar {
+            width: 12px;
+            background-color: transparent;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background-color: #DCD7D5;
+            /* Second color from palette */
+            border-radius: 6px;
+        }
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background-color: #E6CDAE;
+            /* Third color from palette */
+        }
+        
+        header {
+            padding: 50px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            background-color: #3140a2;
+            font-size: 28px;
+            /* Fourth color from palette */
+            color: #EEEEEE;
+            /* Fifth color from palette */
+        }
+        
+        .menu-sections {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .menu-button {
+            padding: 15px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            width: 180px;
+            background: #CCBF88;
+            /* Using first and fifth colors for gradient */
+            color: #000;
+            /* Fourth color for text */
+        }
+        
+        .menu-button:hover {
+            background: #DE8D8D;
+            /* Using third and second colors for gradient on hover */
+        }
+        
+        section {
+            display: none;
+            padding: 30px;
+            margin: 20px;
+            border: 2px solid #DCD7D5;
+            /* Second color from palette */
+            background: #495F75;
+            /* Fifth color from palette */
+            border-radius: 15px;
+        }
+        
+        #sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #DE8D8D;
+            /* Fourth color from palette */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            /* Fifth color from palette */
+            display: block;
+            transition: 0.3s;
+        }
+        
+        #sidebar a:hover {
+            background-color: #F4CDCF;
+            /* First color from palette */
+            color: #000;
+            /* Fourth color from palette */
+        }
+        
+        #toggle-btn {
+            font-size: 20px;
+            cursor: pointer;
+            position: fixed;
+            top: 60px;
+            left: 40px;
+            z-index: 2;
+        }
+        
+        #toggle-btn:hover {
+            color: #E6CDAE;
+            /* Third color from palette */
+        }
+        
+        #header-title {
+            font-weight: bold;
+            letter-spacing: -1px;
+            word-spacing: normal;
+            padding: 5px 0;
+        }
+        
+        #sidebar-content {
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            height: calc(100% - 70px); /* Adjusted height to accommodate the logout button */
+        }
+        
+        .logout-button {
+            position: absolute;
+            bottom: 0; /* Position at the bottom of sidebar */
+            width: 100%; /* Occupy full width */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-top: 2px solid #000000;
+            background-color: #DE8D8D; /* Fourth color from palette */
+        }
+        
+        .logout-button:hover .door-icon {
+            animation: door-open 0.5s forwards;
+        }
+
+        /* Keyframe Animation for Door Icon */
+        @keyframes door-open {
+            to {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar Toggle Button -->
+    <div id="toggle-btn">&#9776;</div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <!-- Profile Picture -->
+            <div class="profile-picture" onclick="showAlert()">
+                <img src="https://placekitten.com/300/300" alt="Profile Picture" onmouseover="changeBorderColor()" onmouseout="restoreBorderColor()">
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <p>{{ username }}</p>
+            </div>
+
+            <!-- Sidebar Buttons -->
+            <div class="sidebar_btns">
+                <!-- Button for Expense Sheets -->
+                <a href="/expense_sheets" class="color5 background1">Expense Sheets</a>
+                <!-- Personal Info Button -->
+                <a href="/user_profile" class="color5 background1">Personal Info</a>
+                <a href="/about" class="color5 background1">About</a>
+                <a href="/help" class="color5 background1">Help</a>
+                <a href="/user_logout" class="color5 background1">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <header class="background4">
+        <div id="toggle-btn" onclick="toggleSidebar()">☰</div>
+        <span id="header-title" class="color5">{% block header_title %}EXPENSE TRACKER{% endblock %}</span>
+
+    </header>
+
+    <div class="menu-sections">
+        {% block menu_buttons %}
+        <button class="menu-button background1" onclick="showSection('expenseView')">Expense View</button>
+        <button class="menu-button background1" onclick="showSection('categoryView')">Category View</button>
+        <button class="menu-button background1" onclick="showSection('spendingsView')">Spendings View</button>
+        {% endblock %}
+    </div>
+
+    {% block content %}
+    <!-- Content sections will be overridden in other templates -->
+    {% endblock %}
+
+    <script>
+        function showSection(sectionId) {
+            switch (sectionId) {
+                case 'expenseView':
+                    window.location.href = '/expense_sheets';
+                    break;
+                case 'categoryView':
+                    window.location.href = '/category_list';
+                    break;
+                case 'spendingsView':
+                    window.location.href = '/spending_list';
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function changeBorderColor() {
+            document.querySelector('.profile-picture').style.border = '4px solid #EEEEEE'; /* Fourth color from palette */
+        }
+
+        function restoreBorderColor() {
+            document.querySelector('.profile-picture').style.border = '4px solid #495F75'; /* Fifth color from palette */
+        }
+
+        function showAlert() {
+            alert('Profile Picture Clicked!');
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+
+            if (sidebar.style.width === '250px') {
+                sidebar.style.width = '0';
+            } else {
+                sidebar.style.width = '250px';
+            }
+        }
+
+        // Function to update scrollbar visibility
+        function updateScrollbar() {
+            var body = document.body;
+            if (body.scrollHeight > window.innerHeight) {
+                body.style.overflowY = 'scroll';
+            } else {
+                body.style.overflowY = 'hidden';
+            }
+        }
+
+        // Call updateScrollbar when the window is resized
+        window.addEventListener('resize', updateScrollbar);
+        window.addEventListener('load', updateScrollbar);
+    </script>
+
+</body>
+
+</html>

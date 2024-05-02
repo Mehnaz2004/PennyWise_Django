@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennyWise</title>
+    <style>
+        body {
+            background-color: #d8d8d8;
+            /* Metallic Solid Light Grey */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            /* To prevent horizontal scrollbar */
+            position: relative;
+            /* Required for absolute positioning */
+        }
+        
+        h1 {
+            color: #3140a2;
+            /* Purple */
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        button {
+            background-color: #3140a2;
+            /* Purple */
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #CDBF89;
+            color: black;
+            /* Fade Yellow on hover */
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <h1>PennyWise</h1>
+    <div class="button-container">
+        <button onclick="showLoginForm()"><b>Login</b></button>
+        <button onclick="showSignupForm()"><b>Signup</b></button>
+    </div>
+
+    <script>
+        function showLoginForm() {
+            window.location.href = 'login/';
+        }
+
+        function showSignupForm() {
+            window.location.href = 'signup/';
+        }
+    </script>
+
+</body>
+
+</html>

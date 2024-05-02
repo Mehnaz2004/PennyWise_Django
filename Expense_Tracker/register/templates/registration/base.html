@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Sidebar Styles */
+        #sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #DE8D8D; /* Fourth color from palette */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        #sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000; /* Fifth color from palette */
+            display: block;
+            transition: 0.3s;
+        }
+        
+        #sidebar a:hover {
+            background-color: #F4CDCF; /* First color from palette */
+            color: #000; /* Fourth color from palette */
+        }
+        
+        #toggle-btn {
+            font-size: 20px;
+            cursor: pointer;
+            position: fixed;
+            top: 60px;
+            left: 40px;
+            z-index: 2;
+        }
+        
+        #toggle-btn:hover {
+            color: #E6CDAE; /* Third color from palette */
+        }
+
+        /* Sidebar Content Styles */
+        #sidebar-content {
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            height: calc(100% - 70px); /* Adjusted height to accommodate the logout button */
+        }
+        
+        .logout-button {
+            position: absolute;
+            bottom: 0; /* Position at the bottom of sidebar */
+            width: 100%; /* Occupy full width */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-top: 2px solid #000000;
+            background-color: #DE8D8D; /* Fourth color from palette */
+        }
+        
+        .logout-button:hover .door-icon {
+            animation: door-open 0.5s forwards;
+        }
+
+        /* Keyframe Animation for Door Icon */
+        @keyframes door-open {
+            to {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+    <!-- Sidebar Toggle Button -->
+    <div id="toggle-btn">&#9776;</div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <!-- Profile Picture -->
+            <div class="profile-picture" onclick="showAlert()">
+                <img src="https://placekitten.com/300/300" alt="Profile Picture" onmouseover="changeBorderColor()" onmouseout="restoreBorderColor()">
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <p>{{ username }}</p>
+            </div>
+
+            <!-- Sidebar Buttons -->
+            <div class="sidebar_btns">
+                <!-- Button for Expense Sheets -->
+                <a href="/expense_sheets" class="color5 background1">Expense Sheets</a>
+                <!-- Personal Info Button -->
+                <a href="/user_profile" class="color5 background1">Personal Info</a>
+                <a href="/about" class="color5 background1">About</a>
+                <a href="/help" class="color5 background1">Help</a>
+                <a href="/user_logout" class="color5 background1">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        document.getElementById("toggle-btn").addEventListener("click", function() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "250px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "250px";
+            }
+        });
+    </script>
+</body>
+</html>

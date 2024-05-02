@@ -1,0 +1,268 @@
+{% extends 'main/base.html' %} {% block content %}
+<style>
+    /* General styles */
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #d8d8d8;
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        /* Show scrollbar for vertical overflow */
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 14px;
+    }
+    /* Styles for the scrollbar */
+    
+     ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+     ::-webkit-scrollbar-track {
+        background: rgba(200, 200, 200, 0.3);
+        border-radius: 5px;
+    }
+    
+     ::-webkit-scrollbar-thumb {
+        background: rgba(100, 100, 100, 0.5);
+        border-radius: 5px;
+    }
+    
+     ::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 100, 100, 0.7);
+    }
+    /* Expense sheet item styles */
+    
+    .expense-sheet-item {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-sizing: border-box;
+        /* Add this line */
+    }
+    
+    .header {
+        background-color: #110a78;
+        /* Light black */
+        color: #f4f4f4;
+        /* Grey */
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        justify-content: space-between;
+        /* Align items to left and right */
+    }
+    
+    .expense-sheet-details {
+        padding: 20px;
+        display: flex;
+        /* Add this line */
+        justify-content: space-between;
+        /* Add this line */
+        align-items: center;
+        /* Add this line */
+    }
+    
+    .expense-sheet-title,
+    .expense-sheet-budget,
+    .expense-sheet-remaining {
+        margin-bottom: 10px;
+        /* Add some spacing between elements */
+    }
+    
+    .expense-sheet-title strong,
+    .expense-sheet-budget strong,
+    .expense-sheet-remaining strong {
+        font-weight: bold;
+    }
+    
+    .expense-title,
+    .expense-budget,
+    .expense-remaining {
+        color: #fff;
+        /* White color */
+    }
+    
+    .expense-title::after,
+    .expense-budget::after,
+    .expense-remaining::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    
+    .expense-budget-ratio {
+        display: flex;
+        align-items: center;
+    }
+    
+    .expense-budget-string {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .expense-budget-string::before {
+        content: "BUDGET = ";
+        font-weight: bold;
+        margin-right: 5px;
+        color: #333;
+    }
+    /* Additional styles from List2 */
+    
+    .expense-sheet-block {
+        border: 2px solid #333333;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    
+    .expense-sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #8a6bf0;
+        color: white;
+        padding: 14px;
+        border-radius: 25px;
+    }
+    
+    .expense-sheet-title {
+        font-weight: bold;
+        font-size: 25px;
+        align-self: center;
+        margin: 0 auto;
+    }
+    
+    .expense-sheet-budget {
+        font-size: 20px;
+    }
+    
+    .button-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .add-expense-sheet {
+        position: fixed;
+        /* Position the button fixed */
+        bottom: 20px;
+        /* Distance from the bottom */
+        right: 20px;
+        /* Distance from the right */
+        background-color: #CCBF88;
+        /* Blue color */
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        font-size: 24px;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .add-expense-sheet:hover {
+        background-color: #110a78;
+        color: #f4f4f4;
+        transform: scale(1.1);
+        /* Scale up slightly on hover */
+    }
+    
+    .update-button,
+    .minus-button {
+        background-color: #CCBF88;
+        /* Green */
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        margin-left: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+    
+    .update-button:hover,
+    .minus-button:hover {
+        background-color: #DE8D8D;
+        /* Darker green on hover */
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<div class="container">
+    {% if expense_sheets %}
+    <ul>
+        {% for expense_sheet in expense_sheets %}
+        <li class="expense-sheet-item">
+            <!-- Header -->
+            <div class="header">
+                <div class="expense-sheet-title">
+                    <strong>Title:</strong> <span class="expense-title" style="color: white;">{{ expense_sheet.title }}</span>
+                </div>
+                <div class="expense-sheet-budget">
+                    <span class="expense-budget-string" style="color: #f4f4f4;font-size: medium;">{{ expense_sheet.remaining_budget }} / {{ expense_sheet.budget }}</span>
+                </div>
+            </div>
+            <!-- Expense Details -->
+            <div class="expense-sheet-details">
+                <div>
+                    <div class="expense-sheet-title">
+                        <strong>Title:</strong> <span class="expense-title" style="color: black;">{{ expense_sheet.title }}</span>
+                    </div>
+                    <div class="expense-sheet-budget">
+                        <strong>Budget:</strong> <span class="expense-budget-string">{{ expense_sheet.remaining_budget }} / {{ expense_sheet.budget }}</span>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <!-- Update Button -->
+                    <button class="update-button" onclick="redirectToUpdatePage({{ expense_sheet.pk }})">Update</button>
+                    <!-- Delete Button -->
+                    <button class="minus-button" onclick="redirectToDeletePage({{ expense_sheet.pk }})">Delete</button>
+                </div>
+            </div>
+        </li>
+
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No expense sheets available.</p>
+    {% endif %}
+
+    <!-- Container for detailed information -->
+    <div class="sheet-details-container">
+        <ul class="sheet-details-list">
+            <!-- Details will be populated dynamically using JavaScript -->
+        </ul>
+    </div>
+    <button class="add-expense-sheet" onclick="addExpenseSheet()">&plus;</button>
+</div>
+
+<script>
+    // Function to handle the click event of the "+" button
+    function addExpenseSheet() {
+        // Redirect the user to the create_expense_sheet URL
+        window.location.href = "/create_expense_sheet";
+    }
+    // Function to redirect to the update page
+    function redirectToUpdatePage(pk) {
+        window.location.href = "/update_expense_sheet/" + pk + "/update/";
+    }
+
+    // Function to redirect to the delete page
+    function redirectToDeletePage(pk) {
+        window.location.href = "/delete_expense_sheet/" + pk + "/delete/";
+    }
+</script>
+
+{% endblock %}

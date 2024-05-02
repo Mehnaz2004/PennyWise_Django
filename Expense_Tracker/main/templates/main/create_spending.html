@@ -1,0 +1,191 @@
+{% block content %}
+<style>
+    /* Styles for the scrollbar */
+    
+    body::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    body::-webkit-scrollbar-track {
+        background: rgba(200, 200, 200, 0.3);
+        /* Transparent gray */
+        border-radius: 5px;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+        background: rgba(100, 100, 100, 0.5);
+        /* Transparent gray */
+        border-radius: 5px;
+    }
+    
+    body::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 100, 100, 0.7);
+        /* Darker gray on hover */
+    }
+    /* Page styling */
+    
+    .flex-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        /* Ensure page takes up at least the viewport height */
+        background-color: #d8d8d8;
+        padding: 20px;
+        /* Add some padding for spacing */
+    }
+    
+    .form-section {
+        position: relative;
+        /* Position relative for absolute positioning of header */
+        background-color: #333;
+        /* Dark tone background for header */
+        color: #000;
+        /* Text color for header */
+        background-color: #f4f4f4;
+        /* Background color for the entire form section */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 400px;
+        text-align: center;
+        /* Center-align the content */
+    }
+    
+    .header-section {
+        position: absolute;
+        /* Position absolute for absolute positioning within parent */
+        top: -60px;
+        /* Adjust top position for header section */
+        left: 0;
+        right: 0;
+        background-color: #110a78;
+        /* Dark tone background for header */
+        color: #fff;
+        /* Text color for header */
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 10px;
+    }
+    
+    .cancel-btn {
+        margin-left: 10px;
+    }
+    
+    .form-elements {
+        margin-bottom: 20px;
+        text-align: initial;
+        display: inline-block;
+        padding: 20px
+    }
+    
+    #toggle-btn,
+    #header-title,
+    .menu-sections {
+        /* Remove blur effect from these specific elements */
+        filter: blur(5px);
+    }
+    
+    .btn-create,
+    .cancel-btn {
+        padding: 12px 24px;
+        background-color: #CCBF88;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        transition: ease-out(1s);
+        /* Make the button an inline block element */
+    }
+    
+    .btn-create:hover,
+    .cancel-btn:hover {
+        background-color: #DE8D8D;
+    }
+    
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 0px;
+        /* Adjust as needed */
+    }
+    
+    .btn-container button,
+    .btn-container a {
+        margin-right: 10px;
+        /* Adjust spacing between buttons */
+    }
+    
+    .btn-create::after {
+        content: '✔';
+        /* Checkmark icon */
+        margin-left: 5px;
+        /* Add some space between the button text and icon */
+    }
+    
+    .cancel-btn::after {
+        content: '✖';
+        /* Times icon */
+        margin-left: 5px;
+        /* Add some space between the button text and icon */
+    }
+    /* Adjust page layout based on scrollbar width */
+    
+    @media (max-width: calc(100vw - 10px)) {
+        .flex-container {
+            margin-right: 10px;
+        }
+    }
+    /* Style for form input fields */
+    
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 15px;
+        /* Increase padding for input fields */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+        /* Increase margin for better spacing */
+    }
+</style>
+
+<div class="flex-container">
+    <div class="form-section">
+        <div class="header-section">
+            <h2>Create New Spending</h2>
+        </div>
+        <form method="post" action="{% url 'create_spending' %}">
+            {% csrf_token %}
+            <div class="form-elements">
+                {{ form.as_p }}
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn-create">Submit</button>
+                <a class="cancel-btn" href="{% url 'expense_sheet_list' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function cancelAction() {
+        // Redirect to the page with the expense_sheet_list URL
+        window.location.href = "{% url 'expense_sheet_list' %}";
+    }
+
+    function clearForm() {
+        var form = document.getElementById('spendingForm');
+        form.reset();
+    }
+
+    // Add an event listener to the form submission to clear fields
+    document.getElementById('spendingForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        clearForm(); // Clear form fields
+        // You can add additional logic here if needed before form submission
+        this.submit(); // Submit the form
+    });
+</script>
+{% endblock %}

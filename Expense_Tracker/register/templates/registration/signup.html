@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        /* Styles for the custom scrollbar */
+        
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        /* Track */
+        
+         ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            /* Transparent black */
+            border-radius: 10px;
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+            /* Darker transparent black */
+        }
+        /* Hide the scrollbar by default */
+        
+        body::-webkit-scrollbar {
+            display: block;
+        }
+        /* Signup form styling */
+        
+        body {
+            background-color: #f2f2f2;
+            /* Soft Grey */
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-y: auto;
+            /* Allow vertical scrolling */
+        }
+        
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+            /* Center the form horizontally */
+            margin-top: 50px;
+            /* Adjust as needed */
+            margin-bottom: 50px;
+            /* Adjust as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        button {
+            background-color: #CCBF88;
+            /* Purple */
+            color: #000;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            width: 50%;
+            transition: background-color 0.5s ease;
+        }
+        
+        button:hover {
+            background-color: #DE8D8D;
+            /* Fade Yellow on hover */
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .login-link a {
+            color: #3140a2;
+            /* Purple */
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="post" class="form-group" id="signupForm">
+        {% csrf_token %}
+        <h2 style="text-align: center;">Signup</h2>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+
+        <label for="middle_name">Middle Name:</label>
+        <input type="text" id="middle_name" name="middle_name" placeholder="Middle Name">
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required onchange="calculateAge()">
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" readonly>
+
+        <label for="phoneno">Phone Number:</label>
+        <input type="tel" id="phoneno" name="phoneno" placeholder="Enter phone number" required>
+
+        <label for="password1">Password:</label>
+        <input type="password" id="password1" name="password1" pattern="(?=.*\d)(?=.*[A-Z]).{6,}" title="Password must contain at least one number and one uppercase letter, and at least 6 or more characters" required>
+
+        <label for="password2">Confirm Password:</label>
+        <input type="password" id="password2" name="password2" required>
+
+        <button type="submit" class="btn btn-success" style="align-self: center;">Signup</button>
+
+        <div class="login-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </form>
+
+    <script>
+        function calculateAge() {
+            var dob = new Date(document.getElementById('dob').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDiff = today.getMonth() - dob.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('age').value = age;
+        }
+    </script>
+
+</body>
+
+</html>

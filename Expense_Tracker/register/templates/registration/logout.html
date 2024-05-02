@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .warning-box {
+            background-color: #FDF3E7;
+            border: 1px solid #FCEBD5;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            width: 50%;
+            max-width: 500px;
+        }
+        
+        .warning-sign {
+            font-size: 36px;
+            color: #FFA500;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box h2 {
+            font-family: 'Arial Black', sans-serif;
+            color: #FFA500;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .warning-box p {
+            font-family: Arial, sans-serif;
+            color: #FFA500;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .warning-box button {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            background-color: #FFD700;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+            margin: 0 10px;
+        }
+        
+        .warning-box button:hover {
+            background-color: #ffa600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="warning-box">
+        <div class="warning-sign">&#9888;</div>
+        <h2>Logout</h2>
+        <p>Are you sure you want to log out?</p>
+        <form id="logoutForm" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary">Yes</button>
+                <button id="goBackBtn" class="btn btn-secondary">Go Back</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('goBackBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+        window.location.href = "{% url 'user_profile' %}";
+    });
+
+    document.getElementById('logoutForm').addEventListener('submit', function(event) {
+        // Form submission event listener not needed anymore
+        event.preventDefault();
+        // Perform any necessary logout actions
+        // Redirect to home page after logout
+        window.location.href = "{% url 'home' %}";
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+{% block content %}
+<div class="blur-background"></div>
+<div class="form-container">
+    <div class="header-section">
+        <h2 style="background-color: #110a78; color: #fff; padding: 10px;">Update Expense Sheet</h2>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-elements">
+            {{ form.as_p }}
+        </div>
+        <div class="btn-container">
+            <button type="submit" class="btn-create">Update Expense Sheet</button>
+            <a class="cancel-btn" onclick="cancelAction()">Cancel </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+<script>
+    function cancelAction() {
+        // Redirect to the expense_sheets page
+        window.location.href = "{% url 'expense_sheet_list' %}";
+    }
+</script> {% block styles %}
+<style>
+    /* Styles for the scrollbar */
+    
+    body::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    body::-webkit-scrollbar-track {
+        background: rgba(200, 200, 200, 0.3);
+        /* Transparent gray */
+        border-radius: 5px;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+        background: rgba(100, 100, 100, 0.5);
+        /* Transparent gray */
+        border-radius: 5px;
+    }
+    
+    body::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 100, 100, 0.7);
+        /* Darker gray on hover */
+    }
+    /* Page styling */
+    
+    .blur-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent black */
+        backdrop-filter: blur(8px);
+        /* Blur effect */
+        z-index: 999;
+        /* Ensure it's above other content */
+        overflow: hidden;
+        /* Hide overflow from the background */
+    }
+    
+    .form-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        /* Background color for the entire form section */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        /* Ensure it's above the blurred background */
+    }
+    
+    .header-section {
+        background-color: #110a78;
+        /* Dark tone background for header */
+        color: #fff;
+        /* Text color for header */
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 10px;
+    }
+    
+    .form-elements {
+        text-align: initial;
+        padding: 20px;
+    }
+    
+    .btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 0px;
+    }
+    
+    .btn-create,
+    .cancel-btn {
+        padding: 12px 24px;
+        background-color: #CCBF88;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+        transition: ease-out(1s);
+    }
+    
+    .btn-create:hover,
+    .cancel-btn:hover {
+        background-color: #DE8D8D;
+    }
+    
+    .btn-container button,
+    .btn-container a {
+        margin-right: 10px;
+    }
+    
+    .cancel-btn::after {
+        content: '✖';
+        margin-left: 5px;
+    }
+    /* Adjust page layout based on scrollbar width */
+    
+    @media (max-width: calc(100vw - 10px)) {
+        .form-container {
+            margin-right: 10px;
+        }
+    }
+    /* Style for form input fields */
+    
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}

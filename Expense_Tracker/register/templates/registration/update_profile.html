@@ -1,0 +1,119 @@
+{% extends "registration/base.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #B9D6FC;
+    }
+    .header {
+      background-color: #110a78;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .card {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .field-box {
+      width: 20%;
+      height: 20px;
+      border: 2px solid #110a78;
+      padding: 5px 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .field-box input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+    }
+    .buttons {
+      text-align: left;
+    }
+    .buttons button {
+      background-color: #B5BD7D;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 10px;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Update Profile</h1>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form method="post">
+          {% csrf_token %}
+          <div class="card credentials">
+            <h2>Credentials</h2>
+            <label for="username">Username:</label>
+            <div class="field-box">
+              <input type="text" id="username" name="username" value="{{ user.username }}">
+            </div>
+          </div>
+          <div class="card name">
+            <h2>Name</h2>
+            <label for="first_name">First Name:</label>
+            <div class="field-box">
+              <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <label for="middle-name">Middle Name:</label>
+            <div class="field-box">
+              <input type="text" id="middle_name" name="middle_name" value="{{ user.middle_name }}">
+            </div>
+            <label for="last-name">Last Name:</label>
+            <div class="field-box">
+              <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
+            </div>
+          </div>
+          <div class="card other-info">
+            <h2>Other Info</h2>
+            <label for="dob"><strong>Date of Birth:</strong></label>
+            <div class="field-box">
+              <input type="text" id="dob" name="dob" value="{{ user.dob }}">
+            </div>
+            <label for="age"><strong>Age:</strong></label>
+            <div class="field-box">
+              <input type="number" id="age" name="age" value="{{ user.age }}">
+            </div>
+            <label for="phoneno"><strong>Phone Number:</strong></label>
+            <div class="field-box">
+              <input type="tel" id="phoneno" name="phoneno" value="{{ user.phoneno }}">
+            </div>
+          </div>
+          <div class="buttons">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}
