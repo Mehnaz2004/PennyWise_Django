@@ -16,7 +16,7 @@ class ExpenseSheet(models.Model):
         if not self.pk:
             self.remaining_budget = self.budget
         super().save(*args, **kwargs)
-
+#Changes in models file
 class Category(models.Model):
     name = models.CharField(max_length=255)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
